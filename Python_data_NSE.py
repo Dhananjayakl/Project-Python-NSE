@@ -24,9 +24,9 @@ def get_nse_symbols():
 
 # Step 2: Download historical stock data for last 2 years
 def download_stock_data(symbols):
-    all_data = []
     start_date = datetime.now() - timedelta(days=730)
     end_date = datetime.now()
+    os.makedirs("nse_data", exist_ok=True)
 
     for symbol in symbols:
         ticker = symbol + ".NS"
@@ -34,14 +34,14 @@ def download_stock_data(symbols):
             data = yf.download(ticker, start=start_date, end=end_date, progress=False)
             if not data.empty:
                 data['Symbol'] = symbol
-                data['Date'] = data.index
-                all_data.append(data)
-                print(f"✅ {symbol} data fetched.")
+                data.to_csv(f"nse_data/{symbol}.csv", index=True)
+                print(f"✅ {symbol} saved.")
             else:
                 print(f"❌ No data for {symbol}")
         except Exception as e:
             print(f"⚠️ Error fetching {symbol}: {e}")
-        time.sleep(2)  # Rate limit pause
+        time.sleep(0.5)  # rate limit
+
 
     return all_data
 
