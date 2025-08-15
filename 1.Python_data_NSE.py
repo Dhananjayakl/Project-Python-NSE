@@ -1,3 +1,4 @@
+#this script downlaod the nse data and saves it to a csv file under nse_data ---------------1
 import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
